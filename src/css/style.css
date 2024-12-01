@@ -1,0 +1,230 @@
+/* Réinitialisation et mise en forme globale */
+*,
+::before,
+::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+img {
+  object-fit: cover;
+}
+
+/* Conteneur des fenêtres de chat */
+.window {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.screen {
+  width: 100%;
+  max-width: 375px; /* Limite la taille de l'écran sur grand écran */
+  height: 500px;
+  border-radius: 6px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, .4);
+}
+
+.screen > div {
+  width: 100%;
+  height: 100%;
+}
+
+/* Mise en forme du chat */
+.messenger .chat_header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 60px;
+  padding: 0 1rem;
+  border-bottom: 1px solid gray;
+  gap: 8px;
+}
+
+.profile-pic {
+  width: 40px;
+  border-radius: 50%;
+  aspect-ratio: 1/1;
+}
+
+.messenger .chat_header h3 {
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.messenger .messages_container {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  width: 100%;
+  height: 390px;
+  padding: 5px;
+  overflow-y: auto;
+  overflow-x: hidden; /* Empêche le débordement horizontal */
+  gap: 8px;
+}
+
+/* Styles des messages */
+.messages_container .message {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
+  max-width: 70%; /* Limite la largeur maximale */
+  flex-shrink: 1; /* Réduit la taille des messages trop longs */
+}
+
+.messages_container .message.guest {
+  align-self: flex-start; /* Alignement à gauche */
+}
+
+.messages_container .message.user {
+  margin-left: auto; /* Aligne à droite */
+}
+
+.messages_container .message .message_text {
+  padding: 6px 10px;
+  min-height: 32px;
+  line-height: 1.4;
+  border-radius: 14px;
+  margin-bottom: 1px;
+  background: #094fab; /* Couleur pour utilisateur */
+  color: #e8ecf1;      /* Couleur du texte pour utilisateur */
+  word-break: break-word; /* Coupe les mots trop longs */
+  overflow-wrap: break-word;
+  white-space: normal;
+  box-sizing: border-box; /* Inclut le padding dans la largeur */
+}
+
+.message.guest .message_text {
+  background: #a2a5a9; /* Couleur pour invité */
+  color: #000;         /* Couleur du texte pour invité */
+}
+
+.message_form {
+  width: 100%;
+  height: 45px;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid #000;
+}
+
+.message_form input {
+  width: 100%;
+  padding: .5rem;
+  outline: none;
+  border: 1px solid #a2a5a9;
+  border-radius: 4px;
+}
+
+.message_form button[type="submit"] {
+  padding: .5rem 1rem;
+  background: #094fab;
+  color: #e8ecf1;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Animer l'indicateur "En train d'écrire..." */
+.writingGuest .message_text {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  border-radius: 14px !important;
+}
+
+.message_text span {
+  width: 5px;
+  height: 5px;
+  display: block;
+  border-radius: 50%;
+  background: rgb(64, 64, 69);
+}
+
+.message_text span:nth-child(1) {
+  animation: upd 1s .5s infinite ease;
+}
+
+.message_text span:nth-child(2) {
+  animation: upd 1s .7s infinite ease;
+}
+
+.message_text span:nth-child(3) {
+  animation: upd 1s 1s infinite ease;
+}
+
+@keyframes upd {
+  0% {
+    transform: translateY(-5px);
+  }
+
+  50% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-5px);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  /* Reverser les fenêtres et les empiler verticalement */
+  .window {
+    flex-direction: column; /* Place les fenêtres l'une au-dessus de l'autre */
+  }
+
+  .screen {
+    width: 90%; /* Utilisation de la largeur disponible */
+    height: 400px; /* Taille réduite pour mobile */
+  }
+
+  .messenger .chat_header h3 {
+    font-size: 14px; /* Réduit la taille du texte du titre */
+  }
+
+  .messages_container {
+    height: 300px; /* Ajuste la hauteur de la zone de messages */
+  }
+}
+
+@media (max-width: 480px) {
+  /* Optimisation pour très petits écrans (smartphones) */
+  .screen {
+    width: 100%; /* Pleine largeur pour petits écrans */
+    height: 350px; /* Réduit encore la hauteur */
+  }
+
+  .profile-pic {
+    width: 30px; /* Réduit la taille de l'image de profil */
+  }
+
+  .messenger .chat_header h3 {
+    font-size: 12px; /* Réduit encore la taille du texte du titre */
+  }
+
+  .message_form input {
+    padding: .3rem; /* Réduit l'espace autour du texte dans le champ de saisie */
+  }
+
+  .message_form button[type="submit"] {
+    padding: .3rem 0.5rem; /* Réduit la taille du bouton */
+  }
+}
